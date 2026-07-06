@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>项目来源与定位</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 90px 120px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 88px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 22px; line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 1080px;
+  margin-bottom: 50px;
+}
+
+/* 时间线 */
+.timeline {
+  position: relative;
+  margin-top: 30px;
+  padding-left: 100px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 50px; top: 0; bottom: 0;
+  width: 1px; background: var(--line);
+}
+
+.tl-item {
+  position: relative;
+  padding: 0 0 30px 80px;
+  min-height: 130px;
+}
+.tl-item:last-child { padding-bottom: 0; }
+.tl-dot {
+  position: absolute;
+  left: -57px; top: 6px;
+  width: 14px; height: 14px;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+}
+.tl-item.milestone .tl-dot { background: var(--accent); }
+.tl-item.current .tl-dot {
+  background: var(--clay); border-color: var(--clay);
+  width: 18px; height: 18px; left: -59px; top: 4px;
+  box-shadow: 0 0 0 6px var(--clay-soft);
+}
+
+.tl-date {
+  font-family: var(--font-mono);
+  font-size: 14px; font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.tl-item.clay .tl-date { color: var(--clay); }
+.tl-title {
+  font-family: var(--font-display);
+  font-size: 28px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.tl-desc {
+  font-size: 17px; line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 1200px;
+}
+
+/* 右侧项目定位卡片 */
+.position {
+  position: absolute;
+  right: 120px; top: 200px;
+  width: 380px;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 36px 32px;
+  border-radius: 4px;
+}
+.position-tag {
+  font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  opacity: 0.7; margin-bottom: 18px;
+}
+.position-title {
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 18px;
+  letter-spacing: -0.01em;
+}
+.position-title em { font-style: italic; opacity: 0.85; }
+.position-line {
+  width: 32px; height: 1px;
+  background: var(--bg);
+  opacity: 0.5;
+  margin: 18px 0;
+}
+.position-list {
+  list-style: none; padding: 0;
+}
+.position-list li {
+  font-size: 15px; line-height: 1.7;
+  padding: 4px 0;
+  opacity: 0.92;
+}
+.position-list li::before {
+  content: "·"; margin-right: 10px;
+  color: var(--bg);
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">01 · 项目背景 → 来源与定位</div>
+  <h1>从<em>v1.0</em> 到 <em>v5.1</em> 的演进</h1>
+  <p class="lead">Loci 起始于 NLP 课程实验 3（LangChain + FAISS + Ollama + Gradio），经过 4 个月 5 个大版本迭代，演化为生产级本地 RAG 系统。</p>
+
+  <div class="timeline">
+    <div class="tl-item milestone">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2026 · 05 · 16</div>
+      <div class="tl-title">v1.0 · 基础 RAG 起步</div>
+      <div class="tl-desc">PDF / Word 支持 · FAISS 向量库 · Gradio 单页面 · 200+ 行代码 · 2 种文档格式</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2026 · 05 · 17 — 18</div>
+      <div class="tl-title">v2.0 — v2.1 · 来源追溯 & 导出</div>
+      <div class="tl-desc">文档来源追溯 · 批量上传 · 4 Tab 布局 · Markdown/PDF 导出 · 850+ 行代码</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2026 · 06 · 03</div>
+      <div class="tl-title">v3.0 · 混合检索 + Rerank</div>
+      <div class="tl-desc">BM25 + 向量 RRF 融合 · CrossEncoder 精排 · 增强分片 · 检索精度提升 40%</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2026 · 06 · 10 — 12</div>
+      <div class="tl-title">v4.0 — v4.2 · 产品化跃迁</div>
+      <div class="tl-desc">多轮对话 · SSE 流式 · 标签/全文/URL/版本快照 · RAG Fallback · Perplexity 风前端</div>
+    </div>
+
+    <div class="tl-item current">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2026 · 06 · 12</div>
+      <div class="tl-title">v5.0 — v5.1 · 工程化收敛</div>
+      <div class="tl-desc">4 层目录隔离 · 移除 Gradio 入口 · 删除 110+ 非必要文件 · 零冗余收敛</div>
+    </div>
+  </div>
+
+  <div class="position">
+    <div class="position-tag">// Position</div>
+    <div class="position-title">生产级 <em>本地 RAG</em> 系统</div>
+    <div class="position-line"></div>
+    <ul class="position-list">
+      <li>NLP 课程实验 3 成果</li>
+      <li>面试导向 LLM 项目</li>
+      <li>5 Tab 全功能产品</li>
+      <li>19 页 PPT 完整呈现</li>
+    </ul>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">06 / 19</div>
+</div>
+</body>
+</html>

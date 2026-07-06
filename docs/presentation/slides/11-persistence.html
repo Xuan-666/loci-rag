@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>数据持久化层</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 70px 120px 90px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: 80px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 20px; line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 1200px;
+  margin-bottom: 28px;
+}
+
+/* 主区：左表格 + 右 4 共同特征 */
+.main {
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 36px;
+  align-items: stretch;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  overflow: hidden;
+}
+thead th {
+  font-family: var(--font-mono);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-faint);
+  text-align: left;
+  padding: 14px 18px;
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--line);
+}
+tbody td {
+  font-size: 16px;
+  padding: 16px 18px;
+  border-bottom: 1px dashed var(--line-soft);
+  color: var(--ink);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody td.mono { font-family: var(--font-mono); font-size: 14px; color: var(--accent-deep); }
+tbody td.check {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  text-align: center;
+  font-size: 18px;
+}
+tbody td.check.no { color: var(--ink-faint); }
+.tag {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+}
+.tag.clay { background: var(--clay-soft); color: var(--clay); }
+.tag.gold { background: rgba(200,155,60,0.18); color: var(--gold); }
+
+.right-col {
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 4px;
+  padding: 32px 30px;
+}
+.right-col h3 {
+  font-family: var(--font-display);
+  font-size: 30px; font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.right-col h3 em { font-style: italic; opacity: 0.85; }
+.right-col .right-tag {
+  font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  opacity: 0.7; margin-bottom: 24px;
+}
+.feature-list {
+  list-style: none; padding: 0;
+  margin-top: 16px;
+}
+.feature-list li {
+  padding: 16px 0;
+  border-top: 1px solid rgba(244, 241, 234, 0.2);
+  display: flex; gap: 18px;
+  align-items: flex-start;
+}
+.feature-list li:last-child { border-bottom: 1px solid rgba(244, 241, 234, 0.2); }
+.feat-num {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 300;
+  line-height: 1;
+  min-width: 50px;
+  opacity: 0.7;
+}
+.feat-body { flex: 1; }
+.feat-title {
+  font-size: 17px; font-weight: 600;
+  margin-bottom: 3px;
+}
+.feat-desc {
+  font-size: 14px; line-height: 1.5;
+  opacity: 0.85;
+  font-family: var(--font-mono);
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">02 · 系统设计 → 数据持久化层</div>
+  <h1>4 类<em>存储</em> + 4 个共同特征</h1>
+  <p class="lead">4 个独立 Store 类遵循统一的「JSON + lock + 原子写 + 容错读」风格，5.0 重构后全部归位 <code style="font-family:var(--font-mono);background:var(--bg-soft);padding:2px 6px;border-radius:3px;color:var(--accent-deep)">data/</code> 目录。</p>
+
+  <div class="main">
+    <table>
+      <thead>
+        <tr>
+          <th>Store</th>
+          <th>文件</th>
+          <th>Lock</th>
+          <th>Atomic</th>
+          <th>Fallback</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag">CHAT</span> ChatStore</td>
+          <td class="mono">chat_history.json</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr>
+          <td><span class="tag">TAG</span> TagManager</td>
+          <td class="mono">tags.json</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr>
+          <td><span class="tag clay">FAV</span> FavoritesStore <em style="font-size:11px;color:var(--clay);font-style:normal">(v5.1)</em></td>
+          <td class="mono">favorites.json</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr>
+          <td><span class="tag gold">CFG</span> SettingsManager</td>
+          <td class="mono">user_settings.json</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr>
+          <td><span class="tag">VS</span> VersionManager</td>
+          <td class="mono">vector_store_versions/</td>
+          <td class="check no">·</td>
+          <td class="check">rename</td>
+          <td class="check no">—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="right-col">
+      <div class="right-tag">// Shared Pattern</div>
+      <h3>JSON Store 的<br>4 个<em>共同特征</em></h3>
+
+      <ul class="feature-list">
+        <li>
+          <div class="feat-num">01</div>
+          <div class="feat-body">
+            <div class="feat-title">顶层是 dict</div>
+            <div class="feat-desc">{"items": [...]}  ·  方便后续扩展字段</div>
+          </div>
+        </li>
+        <li>
+          <div class="feat-num">02</div>
+          <div class="feat-body">
+            <div class="feat-title">写入 temp + rename</div>
+            <div class="feat-desc">atomic 原子操作  ·  避免半写状态</div>
+          </div>
+        </li>
+        <li>
+          <div class="feat-num">03</div>
+          <div class="feat-body">
+            <div class="feat-title">JSON 损坏容错读</div>
+            <div class="feat-desc">返回空结构  ·  不抛异常</div>
+          </div>
+        </li>
+        <li>
+          <div class="feat-num">04</div>
+          <div class="feat-body">
+            <div class="feat-title">threading.Lock</div>
+            <div class="feat-desc">写操作加锁  ·  避免并发竞争</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">11 / 19</div>
+</div>
+</body>
+</html>

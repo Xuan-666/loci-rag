@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>痛点与价值</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 90px 120px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 88px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 22px; line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 980px;
+  margin-bottom: 50px;
+}
+
+/* 双栏对比 */
+.compare {
+  display: grid; grid-template-columns: 1fr 80px 1fr;
+  gap: 0;
+  align-items: stretch;
+  margin-top: 24px;
+}
+.col {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 36px 40px;
+  display: flex; flex-direction: column;
+}
+.col.before { border-left: 3px solid var(--clay); }
+.col.after { border-left: 3px solid var(--accent); }
+
+.col-title {
+  font-family: var(--font-display);
+  font-size: 30px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.col-tag {
+  font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 24px;
+}
+.col.before .col-tag { color: var(--clay); }
+.col.after .col-tag { color: var(--accent); }
+
+ul {
+  list-style: none; padding: 0;
+  flex: 1;
+}
+li {
+  font-size: 18px; line-height: 1.5;
+  color: var(--ink-soft);
+  padding: 12px 0 12px 32px;
+  position: relative;
+  border-bottom: 1px dashed var(--line-soft);
+}
+li:last-child { border-bottom: none; }
+li::before {
+  content: ""; position: absolute;
+  left: 0; top: 22px;
+  width: 18px; height: 1px;
+  background: var(--ink-faint);
+}
+.col.before li::before { background: var(--clay); }
+.col.after li::before { background: var(--accent); }
+li strong {
+  display: block;
+  color: var(--ink); font-weight: 600;
+  font-size: 19px;
+  margin-bottom: 4px;
+}
+
+.middle {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 0;
+}
+.arrow {
+  font-family: var(--font-display);
+  font-size: 96px; font-weight: 200;
+  color: var(--accent);
+  line-height: 1;
+  transform: rotate(0deg);
+}
+.arrow-line {
+  width: 1px; height: 100px;
+  background: var(--line);
+  margin: 12px 0;
+}
+.arrow-text {
+  font-family: var(--font-mono);
+  font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-faint);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">01 · 项目背景 → 痛点与价值</div>
+  <h1>为什么需要<em>本地</em> RAG？</h1>
+  <p class="lead">云端 RAG 服务存在隐私、成本、网络依赖三大硬伤，Loci 用「本地化 + 混合检索 + 智能 Fallback」给出回应。</p>
+
+  <div class="compare">
+    <div class="col before">
+      <div class="col-title">云端 RAG</div>
+      <div class="col-tag">// Common Cloud Pattern</div>
+      <ul>
+        <li><strong>数据隐私</strong>文档上传到第三方服务器，企业敏感数据有泄露风险</li>
+        <li><strong>持续成本</strong>按 token 计费 + 向量库订阅费，月均 ¥200-2000+</li>
+        <li><strong>网络依赖</strong>断网/限速/服务宕机时直接不可用</li>
+        <li><strong>黑盒检索</strong>用户无法干预检索策略与排序逻辑</li>
+        <li><strong>格式受限</strong>多数 SaaS 不支持 .doc / .pptx / .rtf 等本地常见格式</li>
+      </ul>
+    </div>
+
+    <div class="middle">
+      <div class="arrow-text">Loci</div>
+      <div class="arrow-line"></div>
+      <div class="arrow">→</div>
+      <div class="arrow-line"></div>
+      <div class="arrow-text">Migrate</div>
+    </div>
+
+    <div class="col after">
+      <div class="col-title">Loci 本地 RAG</div>
+      <div class="col-tag">// Local-First · v5.1</div>
+      <ul>
+        <li><strong>数据不出本机</strong>FAISS 索引 / 对话 / 收藏全部 JSON 存本地</li>
+        <li><strong>零持续成本</strong>仅一次性电费，模型本地缓存复用</li>
+        <li><strong>离线可用</strong>HF_HUB_OFFLINE=1，无网络也能 100% 工作</li>
+        <li><strong>可调权重</strong>BM25/向量权重、精排阈值、TopK 全可配置</li>
+        <li><strong>15 种格式</strong>PDF/DOCX/PPTX/XLSX/HTML/MD/RTF/JSON/CSV …</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">05 / 19</div>
+</div>
+</body>
+</html>

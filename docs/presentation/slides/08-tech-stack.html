@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>技术栈全景</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 90px 120px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: 88px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 22px; line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 980px;
+  margin-bottom: 44px;
+}
+
+/* 5 层架构 */
+.layers {
+  display: flex; flex-direction: column; gap: 14px;
+  margin-top: 12px;
+}
+.layer {
+  display: grid; grid-template-columns: 130px 1fr auto;
+  align-items: center;
+  gap: 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-left: 3px solid var(--ink-faint);
+  border-radius: 4px;
+  padding: 20px 28px;
+  min-height: 92px;
+}
+.layer.frontend { border-left-color: var(--accent); }
+.layer.backend { border-left-color: var(--accent-deep); }
+.layer.rag { border-left-color: var(--clay); }
+.layer.algo { border-left-color: var(--gold); }
+.layer.data { border-left-color: var(--ink-soft); }
+
+.layer-num {
+  font-family: var(--font-display);
+  font-size: 38px; font-weight: 300;
+  color: var(--ink-faint);
+  line-height: 1;
+}
+.layer-frontend .layer-num { color: var(--accent); }
+.layer-backend .layer-num { color: var(--accent-deep); }
+.layer-rag .layer-num { color: var(--clay); }
+.layer-algo .layer-num { color: var(--gold); }
+
+.layer-name {
+  font-family: var(--font-display);
+  font-size: 28px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.layer-stack {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+.layer-stack b { color: var(--accent-deep); font-weight: 600; }
+
+.layer-role {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-faint);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">02 · 系统设计 → 技术栈全景</div>
+  <h1>5 层<em>技术</em>栈</h1>
+  <p class="lead">从用户界面到磁盘存储，Loci 在每一层都选用「本地优先、轻依赖、社区活跃」的开源方案。</p>
+
+  <div class="layers">
+    <div class="layer frontend">
+      <div class="layer-num">L1</div>
+      <div>
+        <div class="layer-name">前端呈现层</div>
+        <div class="layer-stack"><b>原生</b> HTML + CSS 变量主题 + Vanilla JS  ·  <b>SSE</b> fetch().body.getReader()  ·  <b>字体</b> Fraunces / Manrope / JetBrains Mono</div>
+      </div>
+      <div class="layer-role">UI · State</div>
+    </div>
+
+    <div class="layer backend">
+      <div class="layer-num">L2</div>
+      <div>
+        <div class="layer-name">后端服务层</div>
+        <div class="layer-stack"><b>Flask</b> 3 + Flask-CORS  ·  <b>RESTful</b> + SSE  ·  <b>CORS</b> 跨域隔离  ·  <b>20+</b> HTTP 端点</div>
+      </div>
+      <div class="layer-role">API · Routing</div>
+    </div>
+
+    <div class="layer rag">
+      <div class="layer-num">L3</div>
+      <div>
+        <div class="layer-name">RAG 框架层</div>
+        <div class="layer-stack"><b>LangChain</b> 1.x LCEL 链式调用  ·  <b>PromptTemplate</b> + <b>StrOutputParser</b>  ·  <b>FAISS</b> 本地向量库  ·  <b>BM25Retriever</b></div>
+      </div>
+      <div class="layer-role">Retrieval · Generation</div>
+    </div>
+
+    <div class="layer algo">
+      <div class="layer-num">L4</div>
+      <div>
+        <div class="layer-name">算法模型层</div>
+        <div class="layer-stack"><b>Embedding</b> BGE-Small-ZH (HuggingFace 离线)  ·  <b>Rerank</b> bge-reranker-base (CrossEncoder)  ·  <b>LLM</b> deepseek-r1:7b (Ollama)</div>
+      </div>
+      <div class="layer-role">Encode · Rank · Generate</div>
+    </div>
+
+    <div class="layer data">
+      <div class="layer-num">L5</div>
+      <div>
+        <div class="layer-name">数据持久化层</div>
+        <div class="layer-stack"><b>JSON</b> + threading.Lock 原子写  ·  <b>FAISS</b> .faiss/.pkl 二进制  ·  <b>Ollama</b> localhost:11434  ·  <b>HF cache</b> ~/.cache/huggingface</div>
+      </div>
+      <div class="layer-role">Persist · Cache</div>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">08 / 19</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>项目目标</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 90px 120px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 88px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 22px; line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 980px;
+  margin-bottom: 56px;
+}
+
+/* 目标卡片网格 */
+.goals {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 12px;
+}
+.goal {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-top: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 36px 32px 40px;
+  position: relative;
+  display: flex; flex-direction: column;
+  min-height: 380px;
+}
+.goal.clay { border-top-color: var(--clay); }
+.goal.gold { border-top-color: var(--gold); }
+.goal-num {
+  font-family: var(--font-display);
+  font-size: 56px; font-weight: 300;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 8px;
+  font-feature-settings: "lnum";
+}
+.goal.clay .goal-num { color: var(--clay); }
+.goal.gold .goal-num { color: var(--gold); }
+.goal-tag {
+  font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.goal-title {
+  font-family: var(--font-display);
+  font-size: 30px; font-weight: 500;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+.goal-desc {
+  font-size: 17px; line-height: 1.6;
+  color: var(--ink-soft);
+  flex: 1;
+}
+.goal-kpi {
+  margin-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--accent-deep);
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+.goal.clay .goal-kpi { color: var(--clay); }
+.goal.gold .goal-kpi { color: var(--gold); }
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">01 · 项目背景 → 项目目标</div>
+  <h1>三个<em>核心</em>目标</h1>
+  <p class="lead">从大模型应用的「本地化、可用性、可演进」三个维度出发，明确 Loci 的设计目标。</p>
+
+  <div class="goals">
+    <div class="goal">
+      <div class="goal-num">01</div>
+      <div class="goal-tag">PRIVACY · 隐私</div>
+      <div class="goal-title">完全本地化部署</div>
+      <div class="goal-desc">0 API Key、0 网络请求。文档与对话数据全部留在本机，LLM 走本地 Ollama，向量库走本地 FAISS。</div>
+      <div class="goal-kpi">// hf_hub_offline = 1</div>
+    </div>
+
+    <div class="goal clay">
+      <div class="goal-num">02</div>
+      <div class="goal-tag">CAPABILITY · 能力</div>
+      <div class="goal-title">高精度混合检索</div>
+      <div class="goal-desc">BM25 关键词 + FAISS 向量 RRF 融合 + CrossEncoder 精排，三阶段流水线兼顾语义泛化与专有名词命中。</div>
+      <div class="goal-kpi">// BM25:0.6 + Vector:0.4</div>
+    </div>
+
+    <div class="goal gold">
+      <div class="goal-num">03</div>
+      <div class="goal-tag">EVOLVABILITY · 演进</div>
+      <div class="goal-title">可版本管理的产品</div>
+      <div class="goal-desc">向量库版本快照、一键回滚、6 个独立存储类（chat / favorites / tags / settings）、解耦的模块边界。</div>
+      <div class="goal-kpi">// keep_last = 10 versions</div>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">04 / 19</div>
+</div>
+</body>
+</html>

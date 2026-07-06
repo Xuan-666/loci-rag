@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>RAG 检索流水线</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 70px 120px 90px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: 80px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 20px; line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 1200px;
+  margin-bottom: 24px;
+}
+
+/* 流水线 6 步 */
+.pipeline {
+  display: flex; gap: 0;
+  margin-top: 24px;
+  position: relative;
+}
+.step {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 22px 20px 20px;
+  position: relative;
+  display: flex; flex-direction: column;
+  min-height: 280px;
+}
+.step + .step {
+  margin-left: 28px;
+}
+.step + .step::before {
+  content: "▸";
+  position: absolute;
+  left: -22px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: var(--accent);
+  z-index: 2;
+}
+.step-num {
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.step-icon {
+  font-family: var(--font-display);
+  font-size: 38px; font-weight: 300;
+  line-height: 1;
+  color: var(--clay);
+  margin-bottom: 10px;
+}
+.step.accent-deep .step-icon { color: var(--accent-deep); }
+.step.accent .step-icon { color: var(--accent); }
+.step.gold .step-icon { color: var(--gold); }
+.step.clay .step-icon { color: var(--clay); }
+.step.ink .step-icon { color: var(--ink); }
+.step.accent-deep { border-top: 3px solid var(--accent-deep); }
+.step.accent { border-top: 3px solid var(--accent); }
+.step.gold { border-top: 3px solid var(--gold); }
+.step.clay { border-top: 3px solid var(--clay); }
+.step.ink { border-top: 3px solid var(--ink); }
+
+.step-name {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.step-desc {
+  font-size: 14px; line-height: 1.5;
+  color: var(--ink-soft);
+  flex: 1;
+  margin-bottom: 10px;
+}
+.step-cfg {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent-deep);
+  background: var(--bg-soft);
+  padding: 6px 10px;
+  border-radius: 3px;
+  line-height: 1.5;
+}
+.step.clay .step-cfg { color: var(--clay); }
+.step.gold .step-cfg { color: var(--gold); }
+
+/* fallback 决策 */
+.decision {
+  margin-top: 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-left: 3px solid var(--warning);
+  border-radius: 4px;
+  padding: 18px 24px;
+  display: flex; align-items: center; gap: 24px;
+}
+.decision-icon {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--warning);
+  white-space: nowrap;
+}
+.decision-body { flex: 1; }
+.decision-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.decision-desc {
+  font-size: 14px; line-height: 1.5;
+  color: var(--ink-soft);
+}
+.decision-code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--bg);
+  border: 1px solid var(--line-soft);
+  padding: 6px 10px;
+  border-radius: 3px;
+  color: var(--accent-deep);
+  white-space: nowrap;
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">02 · 系统设计 → RAG 检索流水线</div>
+  <h1>6 步<em>流水线</em> + 智能 Fallback</h1>
+  <p class="lead">从用户问题到最终答案，Loci 走完「混合检索 → 精排 → 阈值过滤 → Fallback 决策 → LLM 生成 → 流式输出」6 个阶段。</p>
+
+  <div class="pipeline">
+    <div class="step accent-deep">
+      <div class="step-num">Step 01</div>
+      <div class="step-icon">⌕</div>
+      <div class="step-name">混合检索</div>
+      <div class="step-desc">BM25 召回 Top20 + FAISS 向量召回 Top20，RRF 融合后输出 Top20 候选。</div>
+      <div class="step-cfg">BM25:0.6 · Vector:0.4</div>
+    </div>
+
+    <div class="step accent">
+      <div class="step-num">Step 02</div>
+      <div class="step-icon">⟁</div>
+      <div class="step-name">Rerank 精排</div>
+      <div class="step-desc">CrossEncoder (bge-reranker-base) 对 40 个候选打分，输出 Top10。</div>
+      <div class="step-cfg">initial_k=40 · final_k=8</div>
+    </div>
+
+    <div class="step gold">
+      <div class="step-num">Step 03</div>
+      <div class="step-icon">⊘</div>
+      <div class="step-name">阈值过滤</div>
+      <div class="step-desc">过滤掉 sigmoid 分数 &lt; 0.3 的低质匹配，避免污染 LLM 上下文。</div>
+      <div class="step-cfg">RERANK_SCORE_THRESHOLD=0.3</div>
+    </div>
+
+    <div class="step clay">
+      <div class="step-num">Step 04</div>
+      <div class="step-icon">⌥</div>
+      <div class="step-name">Fallback 决策</div>
+      <div class="step-desc">过滤后若无结果且最高分 &lt; 0.5，自动切到纯 LLM 路径。</div>
+      <div class="step-cfg">RAG_FALLBACK_THRESHOLD=0.5</div>
+    </div>
+
+    <div class="step accent">
+      <div class="step-num">Step 05</div>
+      <div class="step-icon">✎</div>
+      <div class="step-name">LLM 生成</div>
+      <div class="step-desc">LCEL 链：prompt(system+context+history+q) → ChatOllama → StrOutputParser。</div>
+      <div class="step-cfg">deepseek-r1:7b · LCEL</div>
+    </div>
+
+    <div class="step ink">
+      <div class="step-num">Step 06</div>
+      <div class="step-icon">⤓</div>
+      <div class="step-name">SSE 流式输出</div>
+      <div class="step-desc">逐 token yield，前端 fetch().body.getReader() 实时渲染。</div>
+      <div class="step-cfg">events: sources → token* → done</div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-icon">// FALLBACK</div>
+    <div class="decision-body">
+      <div class="decision-title">RAG Fallback 智能兜底</div>
+      <div class="decision-desc">当知识库无相关答案时，自动切到纯 LLM 路径，用黄色提示条告知用户「答案未参考文档」。</div>
+    </div>
+    <div class="decision-code">RAG_FALLBACK_ENABLED = True</div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">10 / 19</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+/* RAG 系统 v4.1 主题样式 - 靛蓝主色 + 卡片化 */
+
+/* 全局变量 */
+:root {
+  --ui-primary: #4F46E5;
+  --ui-success: #10B981;
+  --ui-danger: #EF4444;
+  --ui-warning: #F59E0B;
+  --ui-text-primary: #111827;
+  --ui-text-secondary: #6B7280;
+  --ui-bg-card: #F9FAFB;
+  --ui-bg-page: #FFFFFF;
+}
+
+/* Header 状态条 */
+.rag-header {
+  background: var(--ui-primary);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+}
+
+.rag-header h1 {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.rag-status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ui-success);
+  margin-right: 6px;
+  box-shadow: 0 0 8px var(--ui-success);
+}
+
+.rag-status-dot.error {
+  background: var(--ui-danger);
+  box-shadow: 0 0 8px var(--ui-danger);
+}
+
+/* 卡片化容器 */
+.rag-card {
+  background: var(--ui-bg-card);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #E5E7EB;
+}
+
+/* 来源卡片 */
+.rag-source-card {
+  background: white;
+  border-left: 3px solid var(--ui-primary);
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.rag-source-card .source-title {
+  font-weight: 600;
+  color: var(--ui-text-primary);
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.rag-source-card .source-score {
+  color: var(--ui-primary);
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.rag-source-card .source-preview {
+  color: var(--ui-text-secondary);
+  font-size: 12px;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* 检索过程状态条 */
+.rag-retrieval-status {
+  background: #EEF2FF;
+  border-left: 3px solid var(--ui-primary);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--ui-text-secondary);
+  margin: 8px 0;
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* 全文搜索高亮 */
+mark {
+  background: #FEF3C7;
+  color: #92400E;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+/* Tab 间距 */
+.tabs {
+  margin-top: 8px;
+}
+
+/* 按钮统一样式 */
+.primary-btn {
+  background: var(--ui-primary) !important;
+  color: white !important;
+}

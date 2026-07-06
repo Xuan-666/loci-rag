@@ -1,0 +1,105 @@
+# Loci · 本地知识库 RAG 智能问答系统 — Docker Compose
+# 一键启动完整 demo:Loci Web + Ollama LLM 服务
+#
+# 前置条件:
+#   1. 安装 Docker 与 Docker Compose v2
+#   2. 至少 8GB 内存(Ollama 7B 模型需要 ~4GB)
+#   3. 首次启动会自动拉取 deepseek-r1:7b 模型(可能需要 5-10 分钟)
+#
+# 启动:  docker compose up -d
+# 停止:  docker compose down
+# 日志:  docker compose logs -f loci
+# 浏览器打开: http://localhost:7862
+#
+# 提示:
+#   - Ollama 模型默认下载到宿主机,需要 4GB+ 磁盘空间
+#   - 若已有本机 Ollama,可以把 ollama 服务注释掉,把 LLM_BASE_URL 改为 http://host.docker.internal:11434
+#   - 模型也可改为 qwen2.5:7b / llama3.1:8b 等,见下方环境变量
+
+version: "3.9"
+
+services:
+  # =====================================================================
+  # Loci Web 后端
+  # =====================================================================
+  loci:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: loci-rag
+    restart: unless-stopped
+    ports:
+      - "7862:7862"
+    volumes:
+      # 持久化运行时数据(用户文档/会话/向量库/版本快照)
+      - ./data:/app/data
+      # 挂载 HuggingFace 缓存(避免重复下载模型)
+      - hf_cache:/root/.cache/huggingface
+    environment:
+      # LLM 配置:指向同网络内的 Ollama 服务
+      - LLM_PROVIDER=ollama
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - LLM_MODEL=deepseek-r1:7b
+      # Embedding:默认 HuggingFace BGE-Small-ZH
+      - EMBEDDING_PROVIDER=huggingface
+      - EMBEDDING_MODEL=BAAI/bge-small-zh-v1.5
+      # Rerank
+      - RERANK_ENABLED=true
+      - RERANK_MODEL=BAAI/bge-reranker-base
+    depends_on:
+      ollama:
+        condition: service_started
+    networks:
+      - loci-net
+
+  # =====================================================================
+  # Ollama LLM 服务(本地推理)
+  # =====================================================================
+  ollama:
+    image: ollama/ollama:latest
+    container_name: loci-ollama
+    restart: unless-stopped
+    # 仅暴露给同网络内的 Loci 服务,不直接对外
+    expose:
+      - "11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # GPU 支持(取消注释即可;需安装 nvidia-container-toolkit)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    networks:
+      - loci-net
+
+  # =====================================================================
+  # Ollama 模型拉取 sidecar(首次启动自动拉取)
+  # =====================================================================
+  ollama-pull:
+    image: curlimages/curl:latest
+    container_name: loci-ollama-pull
+    depends_on:
+      - ollama
+    networks:
+      - loci-net
+    entrypoint: >
+      sh -c "
+        echo '正在拉取 deepseek-r1:7b 模型 (约 4GB)...' &&
+        curl -X POST http://ollama:11434/api/pull -d '{\"name\":\"deepseek-r1:7b\"}' &&
+        echo '模型拉取完成!' &&
+        echo '正在拉取 nomic-embed-text (Ollama Embedding 备用)...' &&
+        curl -X POST http://ollama:11434/api/pull -d '{\"name\":\"nomic-embed-text\"}' &&
+        echo '全部就绪!'
+      "
+    restart: "no"
+
+volumes:
+  ollama_data:
+  hf_cache:
+
+networks:
+  loci-net:
+    driver: bridge

@@ -1,0 +1,30 @@
+# 环境变量
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# 数据目录（用户生成数据）
+data/
+uploads/
+uploaded_images/
+
+# 部署脚本
+push_to_github.ps1
+
+# IDE
+.vscode/
+.idea/
+
+# Node.js
+node_modules/
+
+# 操作系统
+.DS_Store
+Thumbs.db

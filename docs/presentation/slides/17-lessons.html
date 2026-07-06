@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>经验教训与挑战</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 70px 120px 90px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: 80px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 20px; line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 1200px;
+  margin-bottom: 24px;
+}
+
+/* 4 个经验卡 */
+.lessons {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 8px;
+}
+.lesson {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 20px 24px 22px;
+  display: flex; flex-direction: column;
+  min-height: 200px;
+}
+.lesson.clay { border-left-color: var(--clay); }
+.lesson.gold { border-left-color: var(--gold); }
+.lesson.deep { border-left-color: var(--accent-deep); }
+
+.lesson-head {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 10px;
+}
+.lesson-num {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 300;
+  color: var(--accent);
+  line-height: 1;
+  font-feature-settings: "lnum";
+}
+.lesson.clay .lesson-num { color: var(--clay); }
+.lesson.gold .lesson-num { color: var(--gold); }
+.lesson.deep .lesson-num { color: var(--accent-deep); }
+.lesson-tag {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.lesson-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.lesson-body {
+  font-size: 14px; line-height: 1.55;
+  color: var(--ink-soft);
+  flex: 1;
+  margin-bottom: 12px;
+}
+.lesson-fix {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent-deep);
+  background: var(--bg-soft);
+  padding: 8px 12px;
+  border-radius: 3px;
+  line-height: 1.5;
+}
+.lesson.clay .lesson-fix { color: var(--clay); }
+.lesson.gold .lesson-fix { color: var(--gold); }
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">04 · 反思与总结 → 经验教训与挑战</div>
+  <h1>踩过的<em>4 个坑</em></h1>
+  <p class="lead">每个 Bug 都是一次对框架/工具理解的深化——这 4 个 v4.x 关键 Bug 的修复经历，是 Loci 工程化路上最值得分享的部分。</p>
+
+  <div class="lessons">
+    <div class="lesson deep">
+      <div class="lesson-head">
+        <div class="lesson-num">01</div>
+        <div class="lesson-tag">LANGCHAIN 1.x COMPAT</div>
+      </div>
+      <div class="lesson-title">BM25Retriever API 变更</div>
+      <div class="lesson-body">LangChain 1.x 移除了 <code style="font-family:var(--font-mono);background:var(--bg-soft);padding:1px 5px;border-radius:2px;color:var(--accent-deep)">get_relevant_documents()</code>，必须改用 <code style="font-family:var(--font-mono);background:var(--bg-soft);padding:1px 5px;border-radius:2px;color:var(--accent-deep)">invoke()</code>。混用新旧 API 会导致 TypeError，但堆栈信息往往指向错误位置，调试困难。</div>
+      <div class="lesson-fix"># 修复: retriever.invoke(query) 替代 retriever.get_relevant_documents(query)</div>
+    </div>
+
+    <div class="lesson clay">
+      <div class="lesson-head">
+        <div class="lesson-num">02</div>
+        <div class="lesson-tag">BGE SIGMOID THRESHOLD</div>
+      </div>
+      <div class="lesson-title">RAG Fallback 阈值未生效</div>
+      <div class="lesson-body">v4.1 配置了 <code style="font-family:var(--font-mono);background:var(--bg-soft);padding:1px 5px;border-radius:2px;color:var(--clay)">RAG_FALLBACK_THRESHOLD=0.3</code>，但 _resolve_sources() 缺少判定逻辑，导致「数据库设计」问题检索到不相关 CIFAR-10 文档仍强行生成答案。</div>
+      <div class="lesson-fix">// 修复: 阈值 0.3→0.5（BGE 官方建议） + _resolve_sources() 加判定</div>
+    </div>
+
+    <div class="lesson">
+      <div class="lesson-head">
+        <div class="lesson-num">03</div>
+        <div class="lesson-tag">STATEFUL SSE</div>
+      </div>
+      <div class="lesson-title">「重新生成」按钮死代码</div>
+      <div class="lesson-body">v4.0 「重新生成」按钮只刷新 UI，没有真正调用后端的 <code style="font-family:var(--font-mono);background:var(--bg-soft);padding:1px 5px;border-radius:2px;color:var(--accent-deep)">askQuestion({regenerate:true})</code>。需先在 web_api.py 端增加 <code style="font-family:var(--font-mono);background:var(--bg-soft);padding:1px 5px;border-radius:2px;color:var(--accent-deep)">regenerate</code> 字段透传到 rag_engine，再在前端真实发起 SSE 调用。</div>
+      <div class="lesson-fix">// 修复: 前端实际 SSE 调用 + 后端 query() 接受 regenerate 参数</div>
+    </div>
+
+    <div class="lesson gold">
+      <div class="lesson-head">
+        <div class="lesson-num">04</div>
+        <div class="lesson-tag">PATH POLLUTION</div>
+      </div>
+      <div class="lesson-title">doc.name 路径污染</div>
+      <div class="lesson-body">v2.x FAISS 存储 doc.name 时混入相对路径（<code style="font-family:var(--font-mono);background:var(--bg-soft);padding:1px 5px;border-radius:2px;color:var(--gold)">./uploaded_docs\file.pdf</code>），API 透传到前端后路径显示混乱。需在 load_documents 阶段统一用 <code style="font-family:var(--font-mono);background:var(--bg-soft);padding:1px 5px;border-radius:2px;color:var(--gold)">Path(p).name</code> 提取文件名。</div>
+      <div class="lesson-fix">// 修复: doc.metadata["source"] = Path(file_path).name</div>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">17 / 19</div>
+</div>
+</body>
+</html>

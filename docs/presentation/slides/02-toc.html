@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Loci · 目录</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 90px 120px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 96px;
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 64px;
+}
+h1 em { color: var(--accent); font-style: italic; }
+
+.toc {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 36px 64px;
+  margin-top: 24px;
+}
+.toc-item {
+  display: flex; align-items: flex-start; gap: 28px;
+  padding: 32px 36px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+  position: relative;
+  transition: all 0.2s;
+}
+.toc-num {
+  font-family: var(--font-display);
+  font-size: 64px; font-weight: 300;
+  color: var(--accent);
+  line-height: 1;
+  font-feature-settings: "lnum";
+  min-width: 90px;
+}
+.toc-num .lbl {
+  font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-faint); display: block; margin-top: 6px;
+  font-family: var(--font-mono); font-weight: 500;
+}
+.toc-content { flex: 1; }
+.toc-title {
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.toc-title em { color: var(--clay); font-style: italic; }
+.toc-desc {
+  font-size: 18px; line-height: 1.5;
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+.toc-pages {
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  margin-top: 12px; letter-spacing: 0.05em;
+}
+
+/* 页码 */
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">CONTENTS · 演示目录</div>
+  <h1>四章<em>·</em>十九页</h1>
+
+  <div class="toc">
+    <div class="toc-item">
+      <div class="toc-num">01<span class="lbl">Chapter</span></div>
+      <div class="toc-content">
+        <div class="toc-title">项目<em>背景</em></div>
+        <div class="toc-desc">目标、意义、上下文与项目定位。从「为什么做」出发。</div>
+        <div class="toc-pages">P. 03 — 06 · 3 pages</div>
+      </div>
+    </div>
+
+    <div class="toc-item">
+      <div class="toc-num">02<span class="lbl">Chapter</span></div>
+      <div class="toc-content">
+        <div class="toc-title">系统<em>设计</em></div>
+        <div class="toc-desc">技术栈、架构图、RAG 检索流水线、持久化与前后端协议。</div>
+        <div class="toc-pages">P. 07 — 11 · 5 pages</div>
+      </div>
+    </div>
+
+    <div class="toc-item">
+      <div class="toc-num">03<span class="lbl">Chapter</span></div>
+      <div class="toc-content">
+        <div class="toc-title">实施<em>评估</em></div>
+        <div class="toc-desc">能力矩阵、性能指标、测试结果与版本演进数据。</div>
+        <div class="toc-pages">P. 12 — 15 · 4 pages</div>
+      </div>
+    </div>
+
+    <div class="toc-item">
+      <div class="toc-num">04<span class="lbl">Chapter</span></div>
+      <div class="toc-content">
+        <div class="toc-title">反思<em>总结</em></div>
+        <div class="toc-desc">踩过的坑、关键经验、未来改进与项目总结。</div>
+        <div class="toc-pages">P. 16 — 19 · 4 pages</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">02 / 19</div>
+</div>
+</body>
+</html>

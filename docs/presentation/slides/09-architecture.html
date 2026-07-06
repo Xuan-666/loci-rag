@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>系统架构</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 70px 120px 90px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: 80px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 20px; line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 1200px;
+  margin-bottom: 28px;
+}
+
+/* 架构图：4 横层 + 1 顶层 */
+.diagram {
+  display: flex; flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+  position: relative;
+}
+.diagram-row {
+  display: flex; align-items: stretch;
+  gap: 10px;
+  position: relative;
+}
+.diagram-label {
+  width: 130px;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-faint);
+  padding-right: 12px;
+  text-align: right;
+  border-right: 1px solid var(--line);
+}
+.diagram-label .num {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 400;
+  color: var(--ink-soft);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.diagram-boxes {
+  flex: 1;
+  display: grid;
+  gap: 10px;
+}
+.dbox {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 14px 18px;
+  display: flex; flex-direction: column;
+  justify-content: center;
+}
+.dbox.accent { border-left: 3px solid var(--accent); }
+.dbox.deep { border-left: 3px solid var(--accent-deep); }
+.dbox.clay { border-left: 3px solid var(--clay); }
+.dbox.gold { border-left: 3px solid var(--gold); }
+.dbox-name {
+  font-family: var(--font-display);
+  font-size: 19px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+.dbox-detail {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.row-client .diagram-boxes { grid-template-columns: 1fr; }
+.row-api .diagram-boxes { grid-template-columns: 1fr; }
+.row-business .diagram-boxes { grid-template-columns: repeat(5, 1fr); }
+.row-algo .diagram-boxes { grid-template-columns: repeat(5, 1fr); }
+.row-data .diagram-boxes { grid-template-columns: repeat(5, 1fr); }
+
+/* 箭头 */
+.arrow {
+  position: absolute;
+  left: 180px; right: 60px;
+  height: 1px; background: var(--ink-faint);
+  z-index: 0;
+  pointer-events: none;
+}
+.arrow::after {
+  content: "▾";
+  position: absolute;
+  right: -8px; top: -10px;
+  color: var(--ink-faint);
+  font-size: 16px;
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">02 · 系统设计 → 系统架构</div>
+  <h1>4 层<em>架构</em> + 1 个客户端</h1>
+  <p class="lead">从浏览器到磁盘，每一层职责清晰、依赖单向收敛——<code style="font-family:var(--font-mono);background:var(--bg-soft);padding:2px 6px;border-radius:3px;color:var(--accent-deep)">config</code> 是叶子节点，被所有模块依赖；<code style="font-family:var(--font-mono);background:var(--bg-soft);padding:2px 6px;border-radius:3px;color:var(--accent-deep)">web_api</code> 是唯一串联所有模块的入口。</p>
+
+  <div class="diagram">
+    <div class="diagram-row row-client">
+      <div class="diagram-label"><div class="num">L0</div>CLIENT</div>
+      <div class="diagram-boxes">
+        <div class="dbox accent">
+          <div class="dbox-name">浏览器 (Chrome / Edge / Firefox)</div>
+          <div class="dbox-detail">frontend/index.html + static/app.js + static/custom.css  ·  1920×1080  ·  5 Tab</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow" style="top: 200px;"></div>
+
+    <div class="diagram-row row-api">
+      <div class="diagram-label"><div class="num">L1</div>API</div>
+      <div class="diagram-boxes">
+        <div class="dbox deep">
+          <div class="dbox-name">Flask Web API · web_api.py</div>
+          <div class="dbox-detail">20+ RESTful 端点 + 1 SSE 流式端点 (/api/query/stream)  ·  CORS 跨域隔离  ·  Gunicorn 可部署</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow" style="top: 300px;"></div>
+
+    <div class="diagram-row row-business">
+      <div class="diagram-label"><div class="num">L2</div>BUSINESS</div>
+      <div class="diagram-boxes">
+        <div class="dbox clay">
+          <div class="dbox-name">RAGEngine</div>
+          <div class="dbox-detail">核心 RAG 引擎</div>
+        </div>
+        <div class="dbox clay">
+          <div class="dbox-name">ChatStore</div>
+          <div class="dbox-detail">多会话持久化</div>
+        </div>
+        <div class="dbox clay">
+          <div class="dbox-name">FavoritesStore</div>
+          <div class="dbox-detail">收藏持久化 (v5.1)</div>
+        </div>
+        <div class="dbox clay">
+          <div class="dbox-name">TagManager</div>
+          <div class="dbox-detail">标签管理</div>
+        </div>
+        <div class="dbox clay">
+          <div class="dbox-name">VersionMgr</div>
+          <div class="dbox-detail">FAISS 快照</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow" style="top: 415px;"></div>
+
+    <div class="diagram-row row-algo">
+      <div class="diagram-label"><div class="num">L3</div>ALGO</div>
+      <div class="diagram-boxes">
+        <div class="dbox gold">
+          <div class="dbox-name">Loaders</div>
+          <div class="dbox-detail">PDF/DOCX/XLSX/PPTX/HTML/MD/CSV/RTF/JSON</div>
+        </div>
+        <div class="dbox gold">
+          <div class="dbox-name">Splitter</div>
+          <div class="dbox-detail">EnhancedTextSplitter · 表格保护</div>
+        </div>
+        <div class="dbox gold">
+          <div class="dbox-name">Embedding</div>
+          <div class="dbox-detail">BGE-Small-ZH (HuggingFace)</div>
+        </div>
+        <div class="dbox gold">
+          <div class="dbox-name">HybridRetriever</div>
+          <div class="dbox-detail">BM25 + FAISS RRF 融合</div>
+        </div>
+        <div class="dbox gold">
+          <div class="dbox-name">CrossEncoderReranker</div>
+          <div class="dbox-detail">bge-reranker-base</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow" style="top: 540px;"></div>
+
+    <div class="diagram-row row-data">
+      <div class="diagram-label"><div class="num">L4</div>DATA</div>
+      <div class="diagram-boxes">
+        <div class="dbox">
+          <div class="dbox-name">uploaded_docs/</div>
+          <div class="dbox-detail">原始文件</div>
+        </div>
+        <div class="dbox">
+          <div class="dbox-name">vector_store/</div>
+          <div class="dbox-detail">FAISS 二进制</div>
+        </div>
+        <div class="dbox">
+          <div class="dbox-name">JSON 4 个</div>
+          <div class="dbox-detail">chat/favorites/tags/settings</div>
+        </div>
+        <div class="dbox">
+          <div class="dbox-name">Ollama</div>
+          <div class="dbox-detail">localhost:11434</div>
+        </div>
+        <div class="dbox">
+          <div class="dbox-name">HF cache</div>
+          <div class="dbox-detail">~/.cache/huggingface</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">09 / 19</div>
+</div>
+</body>
+</html>

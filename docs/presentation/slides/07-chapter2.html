@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 02 · 系统设计</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 90px 120px;
+  background: var(--bg);
+  background-image:
+    radial-gradient(circle at 14% 30%, rgba(184, 92, 56, 0.05), transparent 32%),
+    radial-gradient(circle at 86% 75%, rgba(10, 107, 110, 0.05), transparent 36%);
+}
+
+.bg-num {
+  position: absolute;
+  right: -40px; top: -40px;
+  font-family: var(--font-display);
+  font-size: 720px; font-weight: 200;
+  color: var(--clay-soft);
+  line-height: 1;
+  z-index: 0;
+  user-select: none;
+  opacity: 0.7;
+  letter-spacing: -0.06em;
+}
+
+.content { position: relative; z-index: 1; }
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+.eyebrow::before {
+  content: ""; display: inline-block;
+  width: 32px; height: 1px; background: var(--accent);
+  vertical-align: middle; margin-right: 14px;
+}
+
+.chapter {
+  font-family: var(--font-display);
+  font-size: 200px; font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin-top: 32px;
+}
+.chapter em { font-style: italic; color: var(--clay); }
+
+.title {
+  font-family: var(--font-display);
+  font-size: 96px; font-weight: 300;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-top: 20px;
+  letter-spacing: -0.02em;
+}
+.title em { font-style: italic; color: var(--clay); }
+
+.lead {
+  font-size: 26px; line-height: 1.6;
+  color: var(--ink-soft);
+  margin-top: 40px;
+  max-width: 900px;
+  font-weight: 400;
+}
+.lead strong { color: var(--accent-deep); font-weight: 600; }
+
+.quote {
+  position: absolute;
+  left: 120px; bottom: 100px;
+  max-width: 760px;
+  font-family: var(--font-display);
+  font-size: 28px; line-height: 1.5;
+  font-style: italic;
+  color: var(--ink-soft);
+  padding-left: 28px;
+  border-left: 3px solid var(--accent);
+}
+.quote::before {
+  content: "“";
+  position: absolute;
+  left: -8px; top: -20px;
+  font-size: 80px;
+  color: var(--accent);
+  font-style: normal;
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="bg-num">2</div>
+
+  <div class="content">
+    <div class="eyebrow">Chapter Two</div>
+    <div class="chapter">02</div>
+    <h1 class="title">系统<em>设计</em></h1>
+    <p class="lead">从<strong>技术栈选型</strong>到<strong>架构分层</strong>，从<strong>RAG 检索流水线</strong>到<strong>数据持久化</strong>——本章拆解 Loci 的工程实现。</p>
+  </div>
+
+  <div class="quote">BM25 + 向量 RRF + CrossEncoder 精排，是 Loci 检索精度的三板斧。</div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">07 / 19</div>
+</div>
+</body>
+</html>

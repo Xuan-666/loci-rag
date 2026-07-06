@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>未来改进</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0.1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 70px 120px 90px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: 80px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 20px; line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 1200px;
+  margin-bottom: 24px;
+}
+
+/* 演进路线时间线 */
+.roadmap {
+  display: flex; flex-direction: column; gap: 0;
+  margin-top: 18px;
+  position: relative;
+}
+.road-item {
+  display: grid; grid-template-columns: 110px 1fr 220px;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 1;
+}
+.road-item::before {
+  content: ""; position: absolute;
+  left: 50%; top: 100%; height: 1px;
+  width: 0; background: var(--line);
+}
+.road-item:last-child { margin-bottom: 0; }
+.road-item.future { background: var(--bg-soft); border-style: dashed; }
+
+.road-ver {
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 300;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.road-item.future .road-ver { color: var(--clay); font-style: italic; }
+.road-item.current .road-ver { color: var(--accent-deep); }
+.road-item.current { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.road-item.current .road-content h3,
+.road-item.current .road-content p { color: var(--bg); }
+.road-item.current .road-content h3 em { color: var(--bg); opacity: 0.85; }
+.road-item.current .road-tags .tag { background: rgba(244,241,234,0.18); color: var(--bg); }
+.road-item.current .road-date { color: var(--bg); opacity: 0.7; }
+
+.road-content h3 {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.road-content h3 em { font-style: italic; color: var(--clay); }
+.road-content p {
+  font-size: 14px; line-height: 1.55;
+  color: var(--ink-soft);
+}
+.road-tags {
+  margin-top: 8px;
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.road-tags .tag {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+}
+.road-tags .tag.clay { background: var(--clay-soft); color: var(--clay); }
+.road-tags .tag.gold { background: rgba(200,155,60,0.18); color: var(--gold); }
+
+.road-date {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 13px; letter-spacing: 0.05em;
+  color: var(--ink-faint);
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">04 · 反思与总结 → 未来改进</div>
+  <h1>演进<em>路线</em> · v6.0 → v9.0</h1>
+  <p class="lead">v5.1 是「能用」的下一步是「好用、易扩展、可协作」。以下 4 个版本的演进路线图，回答「Loci 还能怎么走」。</p>
+
+  <div class="roadmap">
+    <div class="road-item current">
+      <div class="road-ver">v5.1</div>
+      <div class="road-content">
+        <h3><em>当前</em> · 工程化收敛</h3>
+        <p>4 层目录隔离 · 移除 Gradio 入口 · 删除 110+ 非必要文件</p>
+      </div>
+      <div class="road-date">2026 · 06 · 12</div>
+    </div>
+
+    <div class="road-item">
+      <div class="road-ver">v6.0</div>
+      <div class="road-content">
+        <h3>React/Vue 前端 + SQLite 替代 JSON</h3>
+        <p>10w+ 收藏/会话后 JSON 读写会变慢，SQLite 提升 IO。React/Vue 接管前端，状态管理更可维护。</p>
+        <div class="road-tags">
+          <span class="tag">Frontend</span>
+          <span class="tag">SQLite</span>
+        </div>
+      </div>
+      <div class="road-date">Q3 · 2026</div>
+    </div>
+
+    <div class="road-item">
+      <div class="road-ver">v7.0</div>
+      <div class="road-content">
+        <h3>多用户隔离 + 权限管理</h3>
+        <p>基于 user_id 隔离聊天/收藏/标签/会话。引入 JWT 鉴权 + RBAC 权限模型，支持团队协作。</p>
+        <div class="road-tags">
+          <span class="tag">Auth</span>
+          <span class="tag clay">Multi-User</span>
+        </div>
+      </div>
+      <div class="road-date">Q4 · 2026</div>
+    </div>
+
+    <div class="road-item">
+      <div class="road-ver">v8.0</div>
+      <div class="road-content">
+        <h3>WebSocket 双向通信 + Agent 框架</h3>
+        <p>SSE 升级为 WebSocket，支持取消生成、追问。引入 LangGraph 让 LLM 自调用工具链。</p>
+        <div class="road-tags">
+          <span class="tag">WebSocket</span>
+          <span class="tag clay">Agent</span>
+          <span class="tag gold">LangGraph</span>
+        </div>
+      </div>
+      <div class="road-date">Q1 · 2027</div>
+    </div>
+
+    <div class="road-item future">
+      <div class="road-ver">v9.0</div>
+      <div class="road-content">
+        <h3>微服务拆分 + Milvus 分布式向量库</h3>
+        <p>前端/后端/算法 3 个独立服务。Milvus 替代 FAISS，支持亿级文档水平扩展。</p>
+        <div class="road-tags">
+          <span class="tag">Microservice</span>
+          <span class="tag gold">Milvus</span>
+        </div>
+      </div>
+      <div class="road-date">Future</div>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">18 / 19</div>
+</div>
+</body>
+</html>

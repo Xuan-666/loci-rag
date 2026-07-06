@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>性能指标与测试</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 70px 120px 90px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: 80px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 20px; line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 1200px;
+  margin-bottom: 28px;
+}
+
+/* 4 大 KPI 数字 */
+.kpis {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.kpi {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-top: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 24px 24px 28px;
+}
+.kpi.clay { border-top-color: var(--clay); }
+.kpi.gold { border-top-color: var(--gold); }
+.kpi.deep { border-top-color: var(--accent-deep); }
+.kpi-num {
+  font-family: var(--font-display);
+  font-size: 80px; font-weight: 300;
+  line-height: 1;
+  color: var(--ink);
+  font-feature-settings: "lnum";
+  margin-bottom: 8px;
+}
+.kpi-num em { font-style: italic; color: var(--accent); }
+.kpi.clay .kpi-num em { color: var(--clay); }
+.kpi.gold .kpi-num em { color: var(--gold); }
+.kpi.deep .kpi-num em { color: var(--accent-deep); }
+.kpi-unit {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-left: 6px;
+}
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 12px;
+}
+.kpi-detail {
+  font-size: 13px; line-height: 1.5;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+/* 测试结果区 */
+.tests {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.test-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 20px 24px;
+}
+.test-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+  display: flex; align-items: center; gap: 10px;
+}
+.test-title .check {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 50%;
+  font-size: 13px; font-weight: 700;
+}
+.test-sub {
+  font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+.test-list {
+  list-style: none; padding: 0;
+}
+.test-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 7px 0;
+  font-size: 14px; line-height: 1.5;
+  color: var(--ink);
+  border-bottom: 1px dashed var(--line-soft);
+}
+.test-list li:last-child { border-bottom: none; }
+.test-list li::before {
+  content: "✓";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  margin-top: 1px;
+}
+.test-list li code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--bg-soft);
+  padding: 1px 6px;
+  border-radius: 2px;
+  color: var(--accent-deep);
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">03 · 实施评估 → 性能指标与测试</div>
+  <h1>4 大<em>KPI</em> + 测试结果</h1>
+  <p class="lead">从检索精度到响应延迟，从测试通过率到端到端验证，Loci 用 4 个核心 KPI + 26 个单元测试 + Playwright E2E 验证工程完成度。</p>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-num"><em>+40</em><span class="kpi-unit">%</span></div>
+      <div class="kpi-label">RETRIEVAL HIT RATE</div>
+      <div class="kpi-detail">v3.0 引入混合检索后，Top5 命中率相对 v2.1 提升 40%。</div>
+    </div>
+    <div class="kpi deep">
+      <div class="kpi-num"><em>5–8</em><span class="kpi-unit">×</span></div>
+      <div class="kpi-label">QUERY SPEEDUP</div>
+      <div class="kpi-detail">Rerank 精排后上下文缩短，检索链路整体提速 5-8 倍。</div>
+    </div>
+    <div class="kpi clay">
+      <div class="kpi-num"><em>26</em><span class="kpi-unit">/26</span></div>
+      <div class="kpi-label">UNIT TESTS PASS</div>
+      <div class="kpi-detail">RAG Fallback / Settings / Exporters 三套单测，100% 通过。</div>
+    </div>
+    <div class="kpi gold">
+      <div class="kpi-num"><em>0</em><span class="kpi-unit">API</span></div>
+      <div class="kpi-label">NETWORK CALLS</div>
+      <div class="kpi-detail">HF_HUB_OFFLINE=1  ·  无任何外部网络请求 · 完全离线运行。</div>
+    </div>
+  </div>
+
+  <div class="tests">
+    <div class="test-card">
+      <div class="test-title">单元测试 <span class="check">✓</span></div>
+      <div class="test-sub">// UNIT TESTS · PYTEST</div>
+      <ul class="test-list">
+        <li><code>test_rag_fallback.py</code>  · 6 个 RAG 阈值决策分支</li>
+        <li><code>test_settings_manager.py</code>  · 10 个 settings 读写场景</li>
+        <li><code>test_exporters.py</code>  · 10 个 Markdown / PDF 导出测试</li>
+        <li>回归测试通过率 26 / 26（100%）</li>
+        <li>关键 Bug：<code>RAG_FALLBACK_THRESHOLD</code> 阈值未生效已修复</li>
+      </ul>
+    </div>
+
+    <div class="test-card">
+      <div class="test-title">E2E 验证 <span class="check">✓</span></div>
+      <div class="test-sub">// PLAYWRIGHT · END-TO-END</div>
+      <ul class="test-list">
+        <li>5 Tab 加载 & 切换正常</li>
+        <li>设置页开关 & 持久化生效</li>
+        <li>收藏导出 Markdown / PDF 200</li>
+        <li>智能问答 Fallback 触发正常</li>
+        <li>「重新生成」按钮实际调用 SSE</li>
+        <li>多会话持久化 & 切换无错乱</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">14 / 19</div>
+</div>
+</body>
+</html>

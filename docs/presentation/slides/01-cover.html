@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Loci · 封面</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  position: relative;
+}
+.page { width: 1920px; height: 1080px; position: relative; padding: 90px 120px; }
+
+/* 装饰元素：左上角编号 */
+.mark {
+  position: absolute; top: 90px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+}
+.mark::before {
+  content: ""; display: inline-block;
+  width: 32px; height: 1px; background: var(--ink-faint);
+  vertical-align: middle; margin-right: 14px;
+}
+
+/* 主标题区 */
+.title-block {
+  position: absolute;
+  top: 50%; left: 120px; right: 120px;
+  transform: translateY(-54%);
+}
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+}
+.eyebrow span { color: var(--ink-faint); margin: 0 12px; }
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 180px;
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+h1 .accent { color: var(--accent); font-style: italic; font-weight: 400; }
+h1 .clay { color: var(--clay); }
+/* Loci 与装饰点之间的小间距控制 */
+h1 .small-gap { display: inline-block; margin: 0 0.12em 0 0.06em; color: var(--ink); font-weight: 300; }
+
+.subtitle {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  max-width: 1400px;
+  margin-top: 8px;
+}
+.subtitle em { color: var(--accent-deep); font-style: italic; }
+
+/* 元数据条 */
+.meta {
+  position: absolute; bottom: 90px; left: 120px; right: 120px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+}
+.meta-left {
+  display: flex; gap: 64px;
+  align-items: flex-end;
+}
+.meta-item {
+  display: flex; flex-direction: column; gap: 8px;
+  min-width: 140px;
+}
+.meta-label {
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-faint);
+  height: 16px;
+  line-height: 1;
+}
+.meta-value {
+  font-family: var(--font-display);
+  font-size: 28px; font-weight: 400;
+  color: var(--ink);
+}
+.meta-value.mono {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  color: var(--accent);
+}
+
+/* 装饰 · 右下角小印章 */
+.stamp {
+  position: absolute; bottom: 90px; right: 120px;
+  width: 110px; height: 110px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  font-family: var(--font-display);
+  color: var(--accent);
+  text-align: center;
+}
+.stamp .v {
+  font-size: 32px; font-weight: 500;
+  line-height: 1; font-feature-settings: "lnum";
+}
+.stamp .l {
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* 背景纹理：左上角淡圆点 */
+.deco-dot {
+  position: absolute;
+  width: 14px; height: 14px;
+  background: var(--clay);
+  border-radius: 50%;
+  top: 290px; left: 120px;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="mark">LOCI · 2026 · v5.1</div>
+
+  <div class="title-block">
+    <div class="eyebrow">本地知识库 RAG 智能问答系统 <span>·</span> 项目演示</div>
+    <h1>Loci<span class="small-gap">·</span><br><span class="accent">本地</span>、<span class="clay">私密</span>、<br>可版本管理</h1>
+    <p class="subtitle">把你的<em>文档库</em>装进 LLM 里——<em>不联网、不上传、不花钱</em>，检索走 BM25+向量混合+精排，生成走本地 Ollama。</p>
+  </div>
+
+  <div class="deco-dot"></div>
+
+  <div class="meta">
+    <div class="meta-left">
+      <div class="meta-item">
+        <div class="meta-label">AUTHOR</div>
+        <div class="meta-value">炳材</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">COURSE</div>
+        <div class="meta-value">NLP 实验 3</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">STACK</div>
+        <div class="meta-value mono">LangChain · FAISS · Ollama</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">DATE</div>
+        <div class="meta-value mono">2026 · 06 · 12</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stamp">
+    <div class="v">5.1</div>
+    <div class="l">VERSION</div>
+  </div>
+</div>
+</body>
+</html>

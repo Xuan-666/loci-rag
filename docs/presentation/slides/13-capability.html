@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>核心能力矩阵</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f1ea; --bg-soft: #ece8de; --bg-card: #faf8f2;
+  --ink: #1a1814; --ink-soft: #57524a; --ink-faint: #8a857b;
+  --line: #d9d3c5; --line-soft: #e6e0d2;
+  --accent: #0a6b6e; --accent-soft: #cee5e5; --accent-deep: #014d52;
+  --clay: #b85c38; --clay-soft: #f3dccd;
+  --gold: #c89b3c;
+  --font-display: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+  --font-body: 'Manrope', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+.page { width: 1920px; height: 1080px; position: relative; padding: 70px 120px 90px; }
+
+.eyebrow {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: 80px; font-weight: 300;
+  line-height: 1.0;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+h1 em { color: var(--clay); font-style: italic; }
+.lead {
+  font-size: 20px; line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 1200px;
+  margin-bottom: 28px;
+}
+
+/* 7 个能力卡：3 列网格 */
+.caps {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 12px;
+}
+.cap {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 22px 22px 24px;
+  display: flex; flex-direction: column;
+  min-height: 200px;
+  position: relative;
+}
+.cap-row-2 { grid-column: span 2; }
+.cap-row-2-tall { grid-row: span 2; min-height: 420px; }
+
+.cap-emoji {
+  font-family: var(--font-display);
+  font-size: 28px; line-height: 1;
+  margin-bottom: 10px;
+  color: var(--accent);
+}
+.cap.clay .cap-emoji { color: var(--clay); }
+.cap.gold .cap-emoji { color: var(--gold); }
+
+.cap-name {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.cap-desc {
+  font-size: 13px; line-height: 1.55;
+  color: var(--ink-soft);
+  flex: 1;
+  margin-bottom: 10px;
+}
+.cap-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  align-self: flex-start;
+}
+.cap.clay .cap-tag { background: var(--clay-soft); color: var(--clay); }
+.cap.gold .cap-tag { background: rgba(200,155,60,0.18); color: var(--gold); }
+.cap.accent .cap-tag { background: var(--accent-soft); color: var(--accent-deep); }
+
+.cap-stat {
+  margin-top: 12px;
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 300;
+  color: var(--ink);
+  line-height: 1;
+  font-feature-settings: "lnum";
+}
+.cap-stat em { font-style: italic; color: var(--accent); }
+.cap-stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 6px;
+}
+
+.page-num {
+  position: absolute; bottom: 36px; right: 120px;
+  font-size: 18px; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.brand {
+  position: absolute; bottom: 36px; left: 120px;
+  font-family: var(--font-mono);
+  font-size: 14px; color: var(--ink-faint);
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">03 · 实施评估 → 核心能力矩阵</div>
+  <h1>7 大<em>能力</em> · 5 Tab 全覆盖</h1>
+  <p class="lead">从智能问答到版本快照，Loci 围绕 7 个核心能力构建产品。覆盖文档、检索、生成、管理、诊断全链路。</p>
+
+  <div class="caps">
+    <div class="cap cap-row-2-tall accent">
+      <div class="cap-emoji">⟁</div>
+      <div class="cap-name">智能问答</div>
+      <div class="cap-desc">多轮上下文注入 · SSE 流式输出 · 来源追溯 · RAG Fallback 兜底 · 自动会话管理</div>
+      <div class="cap-stat">5 <em>轮</em></div>
+      <div class="cap-stat-label">MAX HISTORY TURNS</div>
+      <div class="cap-tag">TAB 1</div>
+    </div>
+
+    <div class="cap">
+      <div class="cap-emoji">⌕</div>
+      <div class="cap-name">混合检索</div>
+      <div class="cap-desc">BM25 + 向量 RRF 融合</div>
+      <div class="cap-stat">40<em>%</em></div>
+      <div class="cap-stat-label">TOP5 HIT RATE LIFT</div>
+      <div class="cap-tag clay">RETRIEVAL</div>
+    </div>
+
+    <div class="cap gold">
+      <div class="cap-emoji">⛁</div>
+      <div class="cap-name">知识库</div>
+      <div class="cap-desc">15 种格式 · 标签管理 · 全文搜索 · URL 摄取 · 文件夹监控</div>
+      <div class="cap-stat">15</div>
+      <div class="cap-stat-label">FORMATS SUPPORTED</div>
+      <div class="cap-tag">TAB 2</div>
+    </div>
+
+    <div class="cap clay">
+      <div class="cap-emoji">★</div>
+      <div class="cap-name">收藏管理</div>
+      <div class="cap-desc">问答收藏 · 关键词高亮 · Markdown / JSON 导出</div>
+      <div class="cap-tag">TAB 3</div>
+    </div>
+
+    <div class="cap accent">
+      <div class="cap-emoji">⛁</div>
+      <div class="cap-name">多会话</div>
+      <div class="cap-desc">多会话持久化 · 一键删除 · 历史回放</div>
+      <div class="cap-tag">TAB 4</div>
+    </div>
+
+    <div class="cap">
+      <div class="cap-emoji">⚙</div>
+      <div class="cap-name">设置中心</div>
+      <div class="cap-desc">引擎诊断 · 主题切换 · 危险操作</div>
+      <div class="cap-tag">TAB 5</div>
+    </div>
+
+    <div class="cap gold">
+      <div class="cap-emoji">⊟</div>
+      <div class="cap-name">版本快照</div>
+      <div class="cap-desc">FAISS 索引快照 · 一键回滚</div>
+      <div class="cap-stat">10</div>
+      <div class="cap-stat-label">VERSIONS KEPT</div>
+      <div class="cap-tag">SETTINGS</div>
+    </div>
+  </div>
+
+  <div class="brand">LOCI · 2026 · v5.1</div>
+  <div class="page-num">13 / 19</div>
+</div>
+</body>
+</html>
